@@ -3,19 +3,10 @@
 # then set up ~/.zprofile, ~/.xinitrc and the desktop defaults.
 # Run as a normal user, after build-core-libs.sh from nextbsd-gnustep.
 #
-# Usage: install-apps.sh [--with-windowmanager]
+# WindowManager.app is installed too, but nothing starts it. Open it when a
+# plain X11 program needs title bars.
 
 set -e
-
-WINDOWMANAGER=no
-case "${1:-}" in
-    "") ;;
-    --with-windowmanager) WINDOWMANAGER=yes ;;
-    *)
-        echo "usage: $0 [--with-windowmanager]" >&2
-        exit 1
-        ;;
-esac
 
 if [ "$(id -u)" -eq 0 ]; then
     echo "$0: run this as a normal user, not root" >&2
@@ -42,23 +33,15 @@ clone_or_pull() {
     fi
 }
 
-for repo in nextbsd-theme apps-terminal apps-fileviewer apps-dock apps-innerspace; do
+for repo in nextbsd-theme apps-terminal apps-fileviewer apps-dock apps-innerspace gnustep-windowmanager; do
     clone_or_pull "https://github.com/pkgdemon/$repo.git"
 done
 
-for repo in nextbsd-theme apps-terminal apps-fileviewer apps-dock apps-innerspace; do
+for repo in nextbsd-theme apps-terminal apps-fileviewer apps-dock apps-innerspace gnustep-windowmanager; do
     echo "==> Building $repo"
     cd "$SOURCES/$repo"
     gmake install
 done
-
-if [ "$WINDOWMANAGER" = yes ]; then
-    clone_or_pull https://github.com/pkgdemon/gnustep-windowmanager.git
-    echo "==> Building gnustep-windowmanager"
-    cd "$SOURCES/gnustep-windowmanager"
-    gmake
-    gmake install
-fi
 
 echo "==> Setting desktop defaults"
 defaults write NSGlobalDomain GSTheme NextBSD

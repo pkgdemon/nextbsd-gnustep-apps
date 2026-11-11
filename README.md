@@ -27,11 +27,11 @@ The script can be re-run. Existing clones are updated with `git pull --ff-only`,
 | [apps-fileviewer](https://github.com/pkgdemon/apps-fileviewer) | FileViewer |
 | [apps-dock](https://github.com/pkgdemon/apps-dock) | The Dock (`DockWM.app`) |
 | [apps-innerspace](https://github.com/pkgdemon/apps-innerspace) | InnerSpace, a live desktop background |
-| [gnustep-windowmanager](https://github.com/pkgdemon/gnustep-windowmanager) | Optional title bars for plain X11 programs |
+| [gnustep-windowmanager](https://github.com/pkgdemon/gnustep-windowmanager) | WindowManager, title bars for plain X11 programs. Installed, but only runs when you open it. |
 
 Repositories are cloned into `~/Library/Sources`. Apps install to `~/Applications`, the theme to `~/Library/Themes`, and its fonts to `~/Library/Fonts`.
 
-WindowManager is only built with `./install-apps.sh --with-windowmanager`. You only need it for programs that aren't GNUstep apps, such as `xterm`.
+WindowManager is installed with the other apps, but nothing starts it. You only need it for programs that aren't GNUstep apps, such as `xterm`.
 
 ## Session setup
 
@@ -85,7 +85,7 @@ defaults write DockWM DockPlacement 2
 | Default | Why |
 |---|---|
 | `GSTheme NextBSD` | Turns on the NextBSD dark theme |
-| `GSBackHandlesWindowDecorations NO` | Makes GNUstep draw its own title bars. This session has no window manager, so with `YES` nothing would draw them. The optional WindowManager doesn't change this, because it leaves GNUstep windows alone. |
+| `GSBackHandlesWindowDecorations NO` | Makes GNUstep draw its own title bars. This session has no window manager, so with `YES` nothing would draw them. WindowManager doesn't change this either, because it leaves GNUstep windows alone. |
 | `DockUseCellTileBackground YES` | Makes the Dock use the theme's dark tile. This is the **Use common_Tile** option in the Dock's settings. |
 | `DockPlacement 2` | Puts the Dock at the top of the right side of the screen. This is the **Right Top** placement in the Dock's settings. |
 
