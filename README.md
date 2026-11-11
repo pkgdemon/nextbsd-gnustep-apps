@@ -55,6 +55,10 @@ The script creates this file only if you don't have one. An existing `.xinitrc` 
 ```sh
 . /System/Library/Makefiles/GNUstep.sh
 
+pkill -u "$USER" -x gpbs
+/System/Library/Tools/gpbs --daemon &
+sleep 1
+
 openapp DockWM.app &
 DOCK_PID=$!
 sleep 1
@@ -62,9 +66,12 @@ sleep 1
 openapp FileViewer.app
 
 kill $DOCK_PID
+pkill -u "$USER" -x gpbs
 ```
 
 FileViewer runs in the foreground, so quitting it ends the session.
+
+The `gpbs` lines start a fresh pasteboard server for each session and stop it at the end. A `gpbs` left over from an earlier X session is still registered but attached to a display that's gone. Every app then waits 30 seconds on it before starting a new one, which shows as a black screen after `startx`. If you already have a `.xinitrc`, add these lines to it.
 
 ### Defaults
 

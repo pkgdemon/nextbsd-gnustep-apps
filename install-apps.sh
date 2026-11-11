@@ -99,6 +99,13 @@ else
     cat > "$HOME/.xinitrc" <<'EOF'
 . /System/Library/Makefiles/GNUstep.sh
 
+# A gpbs left over from an earlier X session is still registered but
+# attached to a dead display, so every app waits 30 s on it before
+# starting a new one. Start a fresh one for this display instead.
+pkill -u "$USER" -x gpbs
+/System/Library/Tools/gpbs --daemon &
+sleep 1
+
 openapp DockWM.app &
 DOCK_PID=$!
 sleep 1
@@ -106,6 +113,8 @@ sleep 1
 openapp FileViewer.app
 
 kill $DOCK_PID
+# gpbs is tied to this display, so don't leave it for the next session.
+pkill -u "$USER" -x gpbs
 EOF
 fi
 
