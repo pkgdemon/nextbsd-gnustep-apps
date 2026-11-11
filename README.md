@@ -24,7 +24,7 @@ The script can be re-run. Existing clones are updated with `git pull --ff-only`,
 |---|---|
 | [nextbsd-theme](https://github.com/pkgdemon/nextbsd-theme) | The NextBSD dark theme, its icons and fonts |
 | [apps-terminal](https://github.com/pkgdemon/apps-terminal) | Terminal, with colors the theme can set |
-| [Finder](https://github.com/pkgdemon/Finder) | FileViewer |
+| [apps-fileviewer](https://github.com/pkgdemon/apps-fileviewer) | FileViewer |
 | [apps-dock](https://github.com/pkgdemon/apps-dock) | The Dock (`DockWM.app`) |
 | [apps-innerspace](https://github.com/pkgdemon/apps-innerspace) | InnerSpace, a live desktop background |
 | [gnustep-windowmanager](https://github.com/pkgdemon/gnustep-windowmanager) | Optional title bars for plain X11 programs |

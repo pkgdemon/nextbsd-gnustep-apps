@@ -42,11 +42,11 @@ clone_or_pull() {
     fi
 }
 
-for repo in nextbsd-theme apps-terminal Finder apps-dock apps-innerspace; do
+for repo in nextbsd-theme apps-terminal apps-fileviewer apps-dock apps-innerspace; do
     clone_or_pull "https://github.com/pkgdemon/$repo.git"
 done
 
-for repo in nextbsd-theme apps-terminal Finder apps-dock apps-innerspace; do
+for repo in nextbsd-theme apps-terminal apps-fileviewer apps-dock apps-innerspace; do
     echo "==> Building $repo"
     cd "$SOURCES/$repo"
     gmake install
