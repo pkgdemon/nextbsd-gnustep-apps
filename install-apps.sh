@@ -33,11 +33,11 @@ clone_or_pull() {
     fi
 }
 
-for repo in nextbsd-theme apps-terminal apps-fileviewer apps-dock apps-innerspace gnustep-windowmanager; do
-    clone_or_pull "https://github.com/pkgdemon/$repo.git"
+for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre; do
+    clone_or_pull "https://github.com/nextbsd/$repo.git"
 done
 
-for repo in nextbsd-theme apps-terminal apps-fileviewer apps-dock apps-innerspace gnustep-windowmanager; do
+for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre; do
     echo "==> Building $repo"
     cd "$SOURCES/$repo"
     gmake install

@@ -22,14 +22,16 @@ The script can be re-run. Existing clones are updated with `git pull --ff-only`,
 
 | Repository | What it provides |
 |---|---|
-| [nextbsd-theme](https://github.com/pkgdemon/nextbsd-theme) | The NextBSD dark theme, its icons and fonts |
-| [apps-terminal](https://github.com/pkgdemon/apps-terminal) | Terminal, with colors the theme can set |
-| [apps-fileviewer](https://github.com/pkgdemon/apps-fileviewer) | Workspace (`Workspace.app`, formerly FileViewer) and its File Viewer windows |
-| [apps-dock](https://github.com/pkgdemon/apps-dock) | The Dock (`DockWM.app`) |
-| [apps-innerspace](https://github.com/pkgdemon/apps-innerspace) | InnerSpace, a live desktop background |
-| [gnustep-windowmanager](https://github.com/pkgdemon/gnustep-windowmanager) | WindowManager, title bars for plain X11 programs. Installed, but only runs when you open it. |
+| [nextbsd-theme](https://github.com/nextbsd/nextbsd-theme) | The NextBSD dark theme, its icons and fonts |
+| [apps-terminal](https://github.com/nextbsd/apps-terminal) | Terminal, with colors the theme can set |
+| [apps-workspace](https://github.com/nextbsd/apps-workspace) | Workspace (`Workspace.app`, formerly FileViewer) and its File Viewer windows |
+| [apps-dock](https://github.com/nextbsd/apps-dock) | The Dock (`DockWM.app`) |
+| [apps-innerspace](https://github.com/nextbsd/apps-innerspace) | InnerSpace, a live desktop background |
+| [apps-xlibre](https://github.com/nextbsd/apps-xlibre) | WindowManager, title bars for plain X11 programs. Installed, but only runs when you open it. |
 
 FileViewer was renamed Workspace. The script removes an old `~/Applications/FileViewer.app`, and Workspace copies FileViewer's settings the first time it starts.
+
+The app repositories moved from pkgdemon to the nextbsd org, and two were renamed: apps-fileviewer is now apps-workspace, and gnustep-windowmanager is now apps-xlibre. The script clones those two fresh into `~/Library/Sources`; you can delete the old `apps-fileviewer` and `gnustep-windowmanager` folders there.
 
 Repositories are cloned into `~/Library/Sources`. Apps install to `~/Applications`, the theme to `~/Library/Themes`, and its fonts to `~/Library/Fonts`.
 
