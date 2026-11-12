@@ -1,10 +1,15 @@
 #!/bin/sh
 # Build and install the NextBSD desktop apps and theme under your home folder,
 # then set up ~/.zprofile, ~/.xinitrc and the desktop defaults.
-# Run as a normal user, after build-core-libs.sh from nextbsd-gnustep.
+# Run as a normal user, after build-core-libs-nextbsd-dispatch.sh and
+# build-windowserver.sh from nextbsd-gnustep.
 #
-# WindowManager.app is installed too, but nothing starts it. Open it when a
-# plain X11 program needs title bars.
+# XLibre.app runs X11 programs on WindowServer, as XQuartz does on macOS:
+# open it and it starts an xterm with NextBSD title bars, and X programs run
+# rootless beside the GNUstep apps. Its X server, Xnextbsd, can't be built
+# on NextBSD yet (no meson or ninja), so the binary for this machine is
+# fetched from apps-xlibre's CI release and checked against its SHA-256.
+# If that fails, XLibre.app is installed without it.
 
 set -e
 
@@ -37,16 +42,52 @@ for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace
     clone_or_pull "https://github.com/nextbsd/$repo.git"
 done
 
+XNEXTBSD_URL=https://github.com/nextbsd/apps-xlibre/releases/download/xnextbsd-latest
+XNEXTBSD_DIR=$(mktemp -d)
+XNEXTBSD=
+
+# Sets XNEXTBSD to the downloaded binary if it arrives and its SHA-256 matches.
+fetch_xnextbsd() {
+    file=$XNEXTBSD_DIR/Xnextbsd-$(uname -m)
+    fetch -q -o "$file" "$XNEXTBSD_URL/${file##*/}" || return 1
+    fetch -q -o "$file.sha256" "$XNEXTBSD_URL/${file##*/}.sha256" || return 1
+    want=$(awk '{ print $1; exit }' "$file.sha256")
+    have=$(sha256 -q "$file")
+    if [ -z "$want" ] || [ "$want" != "$have" ]; then
+        echo "$0: ${file##*/}: SHA-256 is $have, expected $want" >&2
+        return 1
+    fi
+    chmod 755 "$file"
+    XNEXTBSD=$file
+}
+
+echo "==> Fetching Xnextbsd for $(uname -m)"
+if ! fetch_xnextbsd; then
+    echo "warning: couldn't fetch Xnextbsd, so XLibre.app is installed without its X server." >&2
+    echo "Re-run this script later to add it." >&2
+fi
+
 for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre; do
     echo "==> Building $repo"
     cd "$SOURCES/$repo"
-    gmake install
+    if [ "$repo" = apps-xlibre ] && [ -n "$XNEXTBSD" ]; then
+        gmake install XNEXTBSD="$XNEXTBSD"
+    else
+        gmake install
+    fi
 done
+rm -rf "$XNEXTBSD_DIR"
 
 # FileViewer was renamed Workspace; don't leave the old app beside it.
 if [ -d "$HOME/Applications/FileViewer.app" ]; then
     echo "==> Removing the old FileViewer.app (now Workspace.app)"
     rm -rf "$HOME/Applications/FileViewer.app"
+fi
+
+# WindowManager became XLibre.app; don't leave the old app beside it.
+if [ -d "$HOME/Applications/WindowManager.app" ]; then
+    echo "==> Removing the old WindowManager.app (now XLibre.app)"
+    rm -rf "$HOME/Applications/WindowManager.app"
 fi
 
 echo "==> Setting desktop defaults"
@@ -109,4 +150,6 @@ pkill -u "$USER" -x gpbs
 EOF
 fi
 
-echo "==> Done. Log in again, then run startx."
+echo "==> Done. Log out, then log in again at the login window"
+echo "(nextbsd-gnustep's enable-loginwindow.sh turns it on). For an X11"
+echo "session instead, log in again on the text console and run startx."
