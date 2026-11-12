@@ -105,7 +105,6 @@ Start WindowManager when you need it with `openapp WindowManager.app`, and leave
 
 ## Known limitations
 
-- Workspace copies and recursively deletes folders through `/proc/self/fd/...`, and NextBSD has no `/proc`. Expect those two operations to fail.
 - Translucency needs a compositor that honors window opacity, so it isn't available in this setup.
 - Theme icons are normal resolution, and may look soft at 2× display scaling.
 
