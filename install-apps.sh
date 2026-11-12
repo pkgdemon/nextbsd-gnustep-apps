@@ -43,12 +43,20 @@ for repo in nextbsd-theme apps-terminal apps-fileviewer apps-dock apps-innerspac
     gmake install
 done
 
+# FileViewer was renamed Workspace; don't leave the old app beside it.
+if [ -d "$HOME/Applications/FileViewer.app" ]; then
+    echo "==> Removing the old FileViewer.app (now Workspace.app)"
+    rm -rf "$HOME/Applications/FileViewer.app"
+fi
+
 echo "==> Setting desktop defaults"
 defaults write NSGlobalDomain GSTheme NextBSD
 defaults write NSGlobalDomain GSBackHandlesWindowDecorations NO
 defaults write DockWM DockUseCellTileBackground YES
 # 2 is DockPlacementRightTop.
 defaults write DockWM DockPlacement 2
+# Apps show no app icon of their own; the Dock shows them, as on NeXTSTEP.
+defaults write NSGlobalDomain GSSuppressAppIcon YES
 
 # Only the marked block is replaced, so the rest of the file is left alone.
 echo "==> Updating ~/.zprofile"
@@ -93,7 +101,7 @@ openapp DockWM.app &
 DOCK_PID=$!
 sleep 1
 
-openapp FileViewer.app
+openapp Workspace.app
 
 kill $DOCK_PID
 # gpbs is tied to this display, so don't leave it for the next session.
