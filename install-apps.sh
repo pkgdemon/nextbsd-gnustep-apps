@@ -38,7 +38,7 @@ clone_or_pull() {
     fi
 }
 
-for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre; do
+for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
     clone_or_pull "https://github.com/nextbsd/$repo.git"
 done
 
@@ -67,7 +67,7 @@ if ! fetch_xnextbsd; then
     echo "Re-run this script later to add it." >&2
 fi
 
-for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre; do
+for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
     echo "==> Building $repo"
     cd "$SOURCES/$repo"
     if [ "$repo" = apps-xlibre ] && [ -n "$XNEXTBSD" ]; then
