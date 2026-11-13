@@ -28,6 +28,7 @@ The script can be re-run. Existing clones are updated with `git pull --ff-only`,
 | [apps-dock](https://github.com/nextbsd/apps-dock) | The Dock (`DockWM.app`) |
 | [apps-innerspace](https://github.com/nextbsd/apps-innerspace) | InnerSpace, a live desktop background |
 | [apps-xlibre](https://github.com/nextbsd/apps-xlibre) | XLibre (`XLibre.app`), X11 programs on WindowServer, with `Xnextbsd`, its X server, inside it |
+| [apps-settings](https://github.com/nextbsd/apps-settings) | The settings apps: Displays (`Displays.app`), the display's "looks like" size on HiDPI screens |
 
 FileViewer was renamed Workspace. The script removes an old `~/Applications/FileViewer.app`, and Workspace copies FileViewer's settings the first time it starts.
 
