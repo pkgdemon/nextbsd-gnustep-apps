@@ -38,7 +38,7 @@ clone_or_pull() {
     fi
 }
 
-for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
+for repo in nextbsd-theme apps-prompt apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
     clone_or_pull "https://github.com/nextbsd/$repo.git"
 done
 
@@ -67,7 +67,7 @@ if ! fetch_xnextbsd; then
     echo "Re-run this script later to add it." >&2
 fi
 
-for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
+for repo in nextbsd-theme apps-prompt apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
     echo "==> Building $repo"
     cd "$SOURCES/$repo"
     if [ "$repo" = apps-xlibre ] && [ -n "$XNEXTBSD" ]; then
@@ -88,6 +88,12 @@ fi
 if [ -d "$HOME/Applications/WindowManager.app" ]; then
     echo "==> Removing the old WindowManager.app (now XLibre.app)"
     rm -rf "$HOME/Applications/WindowManager.app"
+fi
+
+# Terminal.app was replaced by Prompt.app; don't leave both side by side.
+if [ -d "$HOME/Applications/Terminal.app" ]; then
+    echo "==> Removing the old Terminal.app (now Prompt.app)"
+    rm -rf "$HOME/Applications/Terminal.app"
 fi
 
 echo "==> Setting desktop defaults"
