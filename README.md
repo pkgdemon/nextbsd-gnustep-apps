@@ -14,7 +14,7 @@ cd /private/tmp/nextbsd-gnustep-apps
 ./install-apps.sh
 ```
 
-Afterwards, log out and log in again at the login window (nextbsd-gnustep's `enable-loginwindow.sh` turns it on). Your session starts InnerSpace, the Dock and Workspace. For an X11 session instead, log in again on the text console and run `startx` (see [`~/.xinitrc`](#xinitrc)).
+Afterwards, log out and log in again at the login window (nextbsd-gnustep's `enable-loginwindow.sh` turns it on). Your session starts the Dock and Workspace, which draws the desktop background. For an X11 session instead, log in again on the text console and run `startx` (see [`~/.xinitrc`](#xinitrc)).
 
 The script can be re-run. Existing clones are updated with `git pull --ff-only`, and it stops at the first failure.
 
@@ -26,7 +26,7 @@ The script can be re-run. Existing clones are updated with `git pull --ff-only`,
 | [apps-terminal](https://github.com/nextbsd/apps-terminal) | Terminal, with colors the theme can set |
 | [apps-workspace](https://github.com/nextbsd/apps-workspace) | Workspace (`Workspace.app`, formerly FileViewer) and its File Viewer windows |
 | [apps-dock](https://github.com/nextbsd/apps-dock) | The Dock (`DockWM.app`) |
-| [apps-innerspace](https://github.com/nextbsd/apps-innerspace) | InnerSpace, a live desktop background |
+| [apps-innerspace](https://github.com/nextbsd/apps-innerspace) | InnerSpace's modules for Workspace's live desktop background |
 | [apps-xlibre](https://github.com/nextbsd/apps-xlibre) | XLibre (`XLibre.app`), X11 programs on WindowServer, with `Xnextbsd`, its X server, inside it |
 | [apps-settings](https://github.com/nextbsd/apps-settings) | The settings apps: Displays (`Displays.app`), the display's "looks like" size on HiDPI screens |
 
@@ -108,7 +108,7 @@ defaults write NSGlobalDomain GSSuppressAppIcon YES
 
 To go back to the default look, run `defaults write NSGlobalDomain GSTheme GNUstep` and reopen your apps.
 
-Open `InnerSpace.app` from Workspace or the Dock. It runs as a live background behind your other windows, and its **Run** menu item starts the full-screen saver. It loads modules from `~/Library/InnerSpace`, not `~/Library/Bundles`.
+Choose the desktop background in Workspace > Preferences > Background. Workspace draws it with InnerSpace's modules, which apps-innerspace installs in `~/Library/InnerSpace`.
 
 Open `XLibre.app` from Workspace or the Dock, or with `openapp XLibre.app`, to run X11 programs. Its menu starts another `xterm`, and it asks before quitting while X programs are running.
 

@@ -90,6 +90,13 @@ if [ -d "$HOME/Applications/WindowManager.app" ]; then
     rm -rf "$HOME/Applications/WindowManager.app"
 fi
 
+# InnerSpace's modules now run in Workspace's desktop background, and
+# apps-innerspace installs only the modules; the old app shouldn't linger.
+if [ -d "$HOME/Applications/InnerSpace.app" ]; then
+    echo "==> Removing the old InnerSpace.app (Workspace draws the background now)"
+    rm -rf "$HOME/Applications/InnerSpace.app"
+fi
+
 # Terminal.app was replaced by Prompt.app; don't leave both side by side.
 if [ -d "$HOME/Applications/Terminal.app" ]; then
     echo "==> Removing the old Terminal.app (now Prompt.app)"
