@@ -51,7 +51,14 @@ if [ -d "$SOURCES/apps-prompt/.git" ] && [ ! -e "$SOURCES/apps-terminal" ]; then
     git -C "$SOURCES/apps-terminal" remote set-url origin https://github.com/nextbsd/apps-terminal.git
 fi
 
-for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
+# apps-innerspace was renamed libs-innerspace (it installs only modules):
+# move an existing clone to the new name and point it at the new URL.
+if [ -d "$SOURCES/apps-innerspace/.git" ] && [ ! -e "$SOURCES/libs-innerspace" ]; then
+    mv "$SOURCES/apps-innerspace" "$SOURCES/libs-innerspace"
+    git -C "$SOURCES/libs-innerspace" remote set-url origin https://github.com/nextbsd/libs-innerspace.git
+fi
+
+for repo in nextbsd-theme apps-terminal apps-workspace apps-dock libs-innerspace apps-xlibre apps-settings; do
     clone_or_pull "https://github.com/nextbsd/$repo.git"
 done
 
@@ -88,7 +95,7 @@ if [ -d "$HOME/Applications/Terminal.app" ] \
     rm -rf "$HOME/Applications/Terminal.app"
 fi
 
-for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
+for repo in nextbsd-theme apps-terminal apps-workspace apps-dock libs-innerspace apps-xlibre apps-settings; do
     echo "==> Building $repo"
     cd "$SOURCES/$repo"
     if [ "$repo" = apps-xlibre ] && [ -n "$XNEXTBSD" ]; then
@@ -112,7 +119,7 @@ if [ -d "$HOME/Applications/WindowManager.app" ]; then
 fi
 
 # InnerSpace's modules now run in Workspace's desktop background, and
-# apps-innerspace installs only the modules; the old app shouldn't linger.
+# libs-innerspace installs only the modules; the old app shouldn't linger.
 if [ -d "$HOME/Applications/InnerSpace.app" ]; then
     echo "==> Removing the old InnerSpace.app (Workspace draws the background now)"
     rm -rf "$HOME/Applications/InnerSpace.app"
