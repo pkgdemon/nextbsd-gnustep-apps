@@ -38,7 +38,20 @@ clone_or_pull() {
     fi
 }
 
-for repo in nextbsd-theme apps-prompt apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
+# Prompt became Terminal (nextbsd/apps-terminal); GAP's Terminal, which
+# apps-terminal held before, is archived as nextbsd/apps-terminal-gap.
+# An old checkout of that can't pull from the new repo: move it aside.
+# An apps-prompt checkout is the same repo under its old name.
+if [ -d "$SOURCES/apps-terminal" ] && [ ! -f "$SOURCES/apps-terminal/TerminalWallpaper.m" ] \
+    && [ ! -e "$SOURCES/apps-terminal-gap" ]; then
+    mv "$SOURCES/apps-terminal" "$SOURCES/apps-terminal-gap"
+fi
+if [ -d "$SOURCES/apps-prompt/.git" ] && [ ! -e "$SOURCES/apps-terminal" ]; then
+    mv "$SOURCES/apps-prompt" "$SOURCES/apps-terminal"
+    git -C "$SOURCES/apps-terminal" remote set-url origin https://github.com/nextbsd/apps-terminal.git
+fi
+
+for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
     clone_or_pull "https://github.com/nextbsd/$repo.git"
 done
 
@@ -67,7 +80,15 @@ if ! fetch_xnextbsd; then
     echo "Re-run this script later to add it." >&2
 fi
 
-for repo in nextbsd-theme apps-prompt apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
+# GAP's old Terminal.app (ours carries COPYING.engine) would leave its
+# files inside the new one: take it out first.
+if [ -d "$HOME/Applications/Terminal.app" ] \
+    && [ ! -f "$HOME/Applications/Terminal.app/Resources/COPYING.engine" ]; then
+    echo "==> Removing GAP's old Terminal.app"
+    rm -rf "$HOME/Applications/Terminal.app"
+fi
+
+for repo in nextbsd-theme apps-terminal apps-workspace apps-dock apps-innerspace apps-xlibre apps-settings; do
     echo "==> Building $repo"
     cd "$SOURCES/$repo"
     if [ "$repo" = apps-xlibre ] && [ -n "$XNEXTBSD" ]; then
@@ -97,10 +118,10 @@ if [ -d "$HOME/Applications/InnerSpace.app" ]; then
     rm -rf "$HOME/Applications/InnerSpace.app"
 fi
 
-# Terminal.app was replaced by Prompt.app; don't leave both side by side.
-if [ -d "$HOME/Applications/Terminal.app" ]; then
-    echo "==> Removing the old Terminal.app (now Prompt.app)"
-    rm -rf "$HOME/Applications/Terminal.app"
+# Prompt.app is Terminal.app now; don't leave both side by side.
+if [ -d "$HOME/Applications/Prompt.app" ]; then
+    echo "==> Removing Prompt.app (now Terminal.app)"
+    rm -rf "$HOME/Applications/Prompt.app"
 fi
 
 echo "==> Setting desktop defaults"
