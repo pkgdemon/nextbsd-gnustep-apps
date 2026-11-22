@@ -26,7 +26,7 @@ The script can be re-run. Existing clones are updated with `git pull --ff-only`,
 | [apps-terminal](https://github.com/nextbsd/apps-terminal) | Terminal, with colors the theme can set |
 | [apps-workspace](https://github.com/nextbsd/apps-workspace) | Workspace (`Workspace.app`, formerly FileViewer) and its File Viewer windows |
 | [apps-dock](https://github.com/nextbsd/apps-dock) | The Dock (`DockWM.app`) |
-| [apps-innerspace](https://github.com/nextbsd/apps-innerspace) | InnerSpace's modules for Workspace's live desktop background |
+| [libs-innerspace](https://github.com/nextbsd/libs-innerspace) | InnerSpace's modules for Workspace's live desktop background |
 | [apps-xlibre](https://github.com/nextbsd/apps-xlibre) | XLibre (`XLibre.app`), X11 programs on WindowServer, with `Xnextbsd`, its X server, inside it |
 | [apps-settings](https://github.com/nextbsd/apps-settings) | The settings apps: Displays (`Displays.app`), the display's "looks like" size on HiDPI screens |
 
@@ -108,7 +108,7 @@ defaults write NSGlobalDomain GSSuppressAppIcon YES
 
 To go back to the default look, run `defaults write NSGlobalDomain GSTheme GNUstep` and reopen your apps.
 
-Choose the desktop background in Workspace > Preferences > Background. Workspace draws it with InnerSpace's modules, which apps-innerspace installs in `~/Library/InnerSpace`.
+Choose the desktop background in Workspace > Preferences > Background. Workspace draws it with InnerSpace's modules, which libs-innerspace installs in `~/Library/InnerSpace`.
 
 Open `XLibre.app` from Workspace or the Dock, or with `openapp XLibre.app`, to run X11 programs. Its menu starts another `xterm`, and it asks before quitting while X programs are running.
 
